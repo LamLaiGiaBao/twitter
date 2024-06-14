@@ -1,3 +1,11 @@
+## Ket noi MongoAtlas
+-npm i mongodb
+-Lien quan den database thi luu trong services
+## Dung .env
+- import dotenv
+- npm i dotenv
+
+
 Routing
 MongoDB driver
 
