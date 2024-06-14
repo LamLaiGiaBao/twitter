@@ -11,6 +11,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(express.json())
+console.log(process.env.DB_USERS_COLLECTION);
 app.use('/users', usersRouter)
 databaseService.connect()
 app.listen(port, () => {
