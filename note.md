@@ -5,9 +5,11 @@
 - import dotenv
 - npm i dotenv
 
+## Su dung schema validation
+- npm install express-validator
+- Trong middleware tao 1 checkSchema de quy dinh
+- validation.ts de running valida, check lai kieu du lieu cua func validate RunnableValidationChains<ValidationChain>
 
-Routing
-MongoDB driver
 
 
 - file models/requests: de dinh nghia cac terfacerequests body gui len
