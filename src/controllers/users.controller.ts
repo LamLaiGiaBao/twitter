@@ -15,7 +15,6 @@ export const loginController = async (req: Request, res: Response) => {
   })
 }
 
-
 export const registerController = async (req: Request<ParamsDictionary, any, RegisterReqBody>, res: Response) => {
   try {
     const result = await userService.register(req.body)
