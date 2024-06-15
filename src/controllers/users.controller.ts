@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import userService from '~/services/users.services'
-import {ParamsDictionary} from "express-serve-static-core";
-import { RegisterReqBody } from '~/models/requests/users.requests';
+import { ParamsDictionary } from 'express-serve-static-core'
+import { RegisterReqBody } from '~/models/requests/users.requests'
 export const loginController = (req: Request, res: Response) => {
   const { email, password } = req.body
   if (email === 'llgb2003@gmail.com' && password === '123') {

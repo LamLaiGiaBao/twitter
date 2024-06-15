@@ -32,6 +32,46 @@ Tao 1 file user.requests.ts tao interfece de luu gia tri truyen vao
 npm i jsonwebtoken
 - tao token ben service
 
+## Error Handle
+> Request Handler
+- Nhận request từ client và trả về response
+- Với mỗi request handler thì chúng ta có 3 tham số `req`, `res`, `next`.
+- Nếu ko dùng `next` thì không cần khai báo cũng được
+```ts 
+app.get('/', (req, res, next) => {
+  res.send('hello worlds')
+})
+```
+- Goi `next()` để chuyển request sang request handler tiếp theo
+- Goi `next(err)` để chuyển sang err handler tiếp theo
+
+Khi xay ra lỗi trong synchronous handler thì tự động sẽ được chuyển sang error handler
+Khi xay ra lỗi trong asynchronous thì phải gọi `next(err)` để chuyển sang error handler
+
+## Error handler
+Nhận error từ request handler và trả về response
+
+Với mỗi error handler thì chúng ta bắt **Buộc phải khai báo đủ 4 tham số** là `err`, `req`, `res`, `next`.
+
+## ERROR thống nhất lỗi
+Lỗi thường 
+```ts
+  massage: string
+  error_info?: any
+```
+
+Lỗi validation (422)
+```ts
+{
+  massage: string,
+  errors: {
+    [field: string]: {
+      msg: string
+      [key: string]: any
+    }
+  }
+}
+
 
 
 
