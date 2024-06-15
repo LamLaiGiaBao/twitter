@@ -1,20 +1,57 @@
-import { error } from 'console'
 import { Request, Response, NextFunction } from 'express'
 import { checkSchema } from 'express-validator'
 import { USERS_MESSAGES } from '~/constants/messages'
-import { ErrorWithStatus } from '~/models/Error'
+import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
 import { validate } from '~/utils/validation'
 
-export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body
-  if (!email || !password) {
-    return res.status(400).json({
-      error: 'Missing email or password'
-    })
+export const loginValidator = checkSchema({
+  email: {
+    isString: {
+      errorMessage: USERS_MESSAGES.EMAIL_IS_INVALID
+    },
+    isLength: {
+      options: {
+        min: 1,
+        max: 100
+      }
+    },
+    trim: true,
+    custom: {
+      options: async (value, { req }) => {
+        const user = await databaseService.users.findOne({ email: value })
+        if (user === null) {
+          throw new Error(USERS_MESSAGES.USER_NOT_FOUND)
+        }
+        // Destructuring truyen du lieu qua cho Login controller
+        req.user = user
+        return true
+      }
+    }
+  },
+  password: {
+    notEmpty: {
+      errorMessage: USERS_MESSAGES.PASSWORD_IS_REQUIRED
+    },
+    isLength: {
+      options: {
+        min: 6,
+        max: 50
+      },
+      errorMessage: USERS_MESSAGES.PASSWORD_LENGTH_MUST_BE_FROM_6_TO_50
+    },
+    isStrongPassword: {
+      options: {
+        minLength: 6,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1
+      },
+      errorMessage: USERS_MESSAGES.PASSWORD_MUST_BE_STRONG
+    }
   }
-  next()
-}
+})
 
 export const registerValidator = validate(
   checkSchema({

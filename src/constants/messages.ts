@@ -15,5 +15,10 @@ export const USERS_MESSAGES = {
   CONFIRM_LENGTH_MUST_BE_FROM_6_TO_50: 'Confirm password length must be from 6 to 50 characters',
   CONFIRM_PASSWORD_MUST_BE_STRONG: 'Confirm password must be strong',
   CONFIRM_PASSWORD_NOT_MATCH: 'Password confirmation does not match password',
-  DATE_OF_BIRTH_MUST_BE_ISO8601: 'Date of birth must be in ISO 8601 format'
+  DATE_OF_BIRTH_MUST_BE_ISO8601: 'Date of birth must be in ISO 8601 format',
+  REGISTER_SUCCESS: 'Register successfully',
+  // Login
+  USER_NOT_FOUND: 'User not found',
+  LOGIN_SUCCESS: 'Login success',
+  LOGIN_FAILED: 'Login failed'
 } as const
