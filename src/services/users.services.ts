@@ -4,6 +4,9 @@ import { RegisterReqBody } from '~/models/requests/users.requests'
 import { hashPassword } from '~/utils/crypto'
 import { signToken } from '~/utils/jwt'
 import { TokenType } from '~/constants/enum'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
+import { ObjectId } from 'mongodb'
+import { USERS_MESSAGES } from '~/constants/messages'
 
 class UserService {
   // Create Access Token
@@ -46,6 +49,10 @@ class UserService {
     const user_id = result.insertedId.toString()
     // Dung Promises de dong bo
     const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(user_id)
+    // Them token
+    await databaseService.refreshToken.insertOne(
+      new RefreshToken({ user_id: new ObjectId(user_id), token: refreshToken })
+    )
     return {
       result,
       accessToken,
@@ -62,10 +69,24 @@ class UserService {
   //Login
   async login(user_id: string) {
     const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(user_id)
+    await databaseService.refreshToken.insertOne(
+      new RefreshToken({ user_id: new ObjectId(user_id), token: refreshToken })
+    )
     return {
       accessToken,
       refreshToken
     }
+  }
+
+  async logout(refresh_token: string) {
+    await databaseService.refreshToken.deleteOne({ token: refresh_token })
+    return {
+      message: USERS_MESSAGES.LOGOUT_SUCCESS
+    }
+  }
+
+  async refreshToken(user_id: string) {
+    //const [] = Promise.all([])
   }
 }
 
